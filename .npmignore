@@ -7,3 +7,4 @@ src/
 test/
 .gitignore
 tsconfig.json
+vite.config.ts
