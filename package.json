@@ -1,0 +1,26 @@
+{
+  "name": "rdwr",
+  "description": "File I/O for the web",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "types/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "test": "vite dev",
+    "pages": "vite build --base /rdwr/"
+  },
+  "keywords": [
+    "file",
+    "web",
+    "browser",
+    "stream"
+  ],
+  "author": "WasabiThumb",
+  "license": "Apache-2.0",
+  "type": "commonjs",
+  "devDependencies": {
+    "typescript": "^5.9.2",
+    "vite": "^7.1.3"
+  }
+}

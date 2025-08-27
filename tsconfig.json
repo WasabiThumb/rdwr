@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "declarationDir": "./types",
+    "module": "nodenext",
+    "target": "esnext",
+    "lib": ["dom", "esnext"],
+    "sourceMap": true,
+    "declaration": true,
+    "strict": true
+  },
+  "include": ["src/**/*.ts"]
+}

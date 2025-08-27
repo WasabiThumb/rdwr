@@ -1,0 +1,8 @@
+# Always Excluded
+.idea/
+node_modules/
+
+# Git
+dist/
+types/
+test/dist/

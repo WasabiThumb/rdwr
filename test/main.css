@@ -1,0 +1,73 @@
+
+:root {
+    color-scheme: dark only;
+    color: #fefefe;
+    background-color: #202020;
+    font-family: "Ubuntu", "Arial", system-ui, sans-serif;
+    font-synthesis: none;
+    font-optical-sizing: auto;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    padding: 0;
+    overflow: clip;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+
+#fields {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto auto auto auto;
+}
+
+#fields h2 {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+#fields input {
+    padding: 0.5em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    border-radius: 0.25em;
+    border: none;
+    background: #404040;
+}
+
+#fields input:invalid {
+    background: #7f4040;
+}
+
+#actions {
+    display: flex;
+    width: 75%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#actions button {
+    padding: 0.5em;
+    border-radius: 0.25em;
+    font-weight: bold;
+    background: #407f7f;
+    cursor: pointer;
+    border: none;
+}

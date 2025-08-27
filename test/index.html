@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>rdwr test page</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h1>rdwr test</h1>
+        <div id="fields">
+            <h2>Uint8</h2>
+            <h2>Int8</h2>
+            <h2>Uint16</h2>
+            <h2>Int16</h2>
+            <input type="number" data-role="Uint8" aria-label="Uint8" min="0" max="255" autocomplete="off" value="0">
+            <input type="number" data-role="Int8" aria-label="Int8" min="-128" max="127" autocomplete="off" value="0">
+            <input type="number" data-role="Uint16" aria-label="Uint16" min="0" max="65535" autocomplete="off" value="0">
+            <input type="number" data-role="Int16" aria-label="Int16" min="-32768" max="32767" autocomplete="off" value="0">
+            <h2>Uint32</h2>
+            <h2>Int32</h2>
+            <h2>Uint64</h2>
+            <h2>Int64</h2>
+            <input type="number" data-role="Uint32" aria-label="Uint32" min="0" max="4294967295" autocomplete="off" value="0">
+            <input type="number" data-role="Int32" aria-label="Int32" min="-2147483648" max="2147483647" autocomplete="off" value="0">
+            <input type="text" data-role="Uint64" aria-label="Uint64" pattern="^-?\d+$" autocomplete="off" value="0">
+            <input type="text" data-role="Int64" aria-label="Int64" pattern="^-?\d+$" autocomplete="off" value="0">
+            <h2 data-f16>Float16</h2>
+            <h2>Float32</h2>
+            <h2>Float64</h2>
+            <h2>String</h2>
+            <input type="text" data-role="Float16" aria-label="Float16" pattern="^-?\d*(?:\.\d+)?(?:e[+-]\d+)?$" value="0" autocomplete="off" data-f16>
+            <input type="text" data-role="Float32" aria-label="Float32" pattern="^-?\d*(?:\.\d+)?(?:e[+-]\d+)?$" value="0" autocomplete="off">
+            <input type="text" data-role="Float64" aria-label="Float64" pattern="^-?\d*(?:\.\d+)?(?:e[+-]\d+)?$" value="0" autocomplete="off">
+            <input type="text" data-role="String" aria-label="String" value="test" autocomplete="off">
+        </div>
+        <div id="actions">
+            <button data-role="randomize">Randomize</button>
+            <button data-role="load">Load from File</button>
+            <button data-role="save">Save to File</button>
+        </div>
+        <script type="module" src="./main.ts"></script>
+    </body>
+</html>

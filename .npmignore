@@ -1,0 +1,9 @@
+# Always Excluded
+.idea/
+node_modules/
+
+# NPM
+src/
+test/
+.gitignore
+tsconfig.json
