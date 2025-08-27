@@ -3,6 +3,7 @@
 node_modules/
 
 # NPM
+.github/
 src/
 test/
 .gitignore
