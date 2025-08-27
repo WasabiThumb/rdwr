@@ -3,6 +3,8 @@ File I/O for modern browsers. Allows reading/writing bytes and low-level data ty
 from/to files on the user's filesystem, preferring streaming methods when 
 available.
 
+[Web Demo](https://wasabithumb.github.io/rdwr/) | [Source Code](https://github.com/WasabiThumb/rdwr)
+
 ## Feature Matrix
 |                 | Chrome | Edge | Firefox | Opera | Safari |
 |:----------------|:------:|:----:|:-------:|:-----:|:------:|
