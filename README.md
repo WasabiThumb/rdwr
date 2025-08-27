@@ -17,7 +17,7 @@ available.
 
 ## Usage
 ```js
-import { readFromFile, writeToFile } from "rdwr";
+import { readFromFile, writeToFile } from "rdwr-ts";
 
 // Read a file with suggested name
 async function read(name) {

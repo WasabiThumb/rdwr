@@ -1,6 +1,7 @@
 {
-  "name": "rdwr",
+  "name": "rdwr-ts",
   "description": "File I/O for the web",
+  "homepage": "https://github.com/WasabiThumb/rdwr",
   "version": "0.1.0",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
