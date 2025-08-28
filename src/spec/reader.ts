@@ -12,6 +12,14 @@ export interface DataReader {
 
     readBytes(length: number): Promise<Uint8Array>;
 
+    readAll(): Promise<Uint8Array>;
+
+    readAll(encoding: "bytes"): Promise<Uint8Array>;
+
+    readAll(encoding: "utf8"): Promise<string>;
+
+    readAll(encoding: "base64"): Promise<string>;
+
     readUint8(): Promise<number>;
 
     readInt8(): Promise<number>;
@@ -77,6 +85,62 @@ export abstract class AbstractDataReader implements DataReader {
         }
 
         return u8;
+    }
+
+    // @ts-ignore
+    async readAll(encoding?: string): Promise<string | Uint8Array> {
+        let capacity: number = 4096;
+        let length: number = 0;
+        let buf = new ArrayBuffer(capacity);
+        let read: number;
+
+        function realloc(n: number) {
+            if ("transfer" in buf) {
+                buf = buf.transfer(n);
+            } else {
+                const cpy = new ArrayBuffer(n);
+                (new Uint8Array(cpy)).set(new Uint8Array(buf, 0, length), 0);
+                buf = cpy;
+            }
+        }
+
+        while (true) {
+            read = await this.read(buf, length, capacity - length);
+            if (read === -1) break;
+            length += read;
+            if (length === capacity) {
+                const nc = capacity << 1;
+                realloc(nc);
+                capacity = nc;
+            }
+        }
+
+        switch (encoding) {
+            case "utf8":
+                // @ts-ignore
+                return (new TextDecoder()).decode(new Uint8Array(buf, 0, length));
+            case "base64":
+                const blob = new Blob([ new Uint8Array(buf, 0, length) ]);
+                const reader = new FileReader();
+                const promise = new Promise<string>((resolve, reject) => {
+                    reader.addEventListener("load", () => {
+                        const url = reader.result as string;
+                        const idx = url.indexOf(`;base64,`);
+                        resolve(url.substring(idx + 8));
+                    });
+                    reader.addEventListener("error", () => {
+                        reject(reader.error);
+                    });
+                });
+                reader.readAsDataURL(blob);
+                // @ts-ignore
+                return promise;
+            case "bytes":
+            default:
+                realloc(length);
+                // @ts-ignore
+                return new Uint8Array(buf);
+        }
     }
 
     async readUint8(): Promise<number> {
