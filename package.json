@@ -2,7 +2,7 @@
   "name": "rdwr-ts",
   "description": "File I/O for the web",
   "homepage": "https://github.com/WasabiThumb/rdwr",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
   "scripts": {
