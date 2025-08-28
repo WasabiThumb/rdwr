@@ -1,49 +1,143 @@
 import {DataTarget} from "../util/data";
 
+/**
+ * Abstraction for reading sequential binary data,
+ * backed by a stream when possible
+ */
 export interface DataReader {
 
+    /**
+     * Endianness flag. When true, multibyte values
+     * are read as little-endian. Defaults to false.
+     */
     littleEndian: boolean;
 
+    /**
+     * Reads from this source into the given buffer and advances the position
+     * by the number of bytes read.
+     * @param buf The buffer to receive the data
+     * @param byteOffset The offset into the buffer. Defaults to 0.
+     * @param byteLength The number of bytes to read. Defaults to buffer capacity.
+     * @returns Number of bytes written, or -1 if EOF. Will be nonzero
+     * as long as "byteLength" is nonzero.
+     */
     read(
         buf: DataTarget,
         byteOffset?: number,
         byteLength?: number
     ): Promise<number>;
 
+    /**
+     * Read the specified number of bytes into a newly allocated buffer
+     * and advances the position by that number.
+     * Fails if EOF is encountered before all bytes can be read.
+     */
     readBytes(length: number): Promise<Uint8Array>;
 
+    /**
+     * Reads from the current position to EOF and stores the result
+     * in a newly allocated buffer.
+     */
     readAll(): Promise<Uint8Array>;
 
+    /**
+     * Reads from the current position to EOF and stores the result
+     * in a newly allocated buffer.
+     */
     readAll(encoding: "bytes"): Promise<Uint8Array>;
 
+    /**
+     * Reads from the current position to EOF and stores the result
+     * in a newly allocated buffer, then interprets decodes buffer
+     * as a UTF-8 string.
+     */
     readAll(encoding: "utf8"): Promise<string>;
 
+    /**
+     * Reads from the current position to EOF and stores the result
+     * in a newly allocated buffer, then encodes the buffer
+     * into a base64 string.
+     */
     readAll(encoding: "base64"): Promise<string>;
 
+    /**
+     * Reads an unsigned 8-bit integer
+     * and advances the position by 1 byte.
+     */
     readUint8(): Promise<number>;
 
+    /**
+     * Reads an signed 8-bit integer
+     * and advances the position by 1 byte.
+     */
     readInt8(): Promise<number>;
 
+    /**
+     * Reads an unsigned 16-bit integer with the configured {@link #littleEndian endianness}
+     * and advances the position by 2 bytes.
+     */
     readUint16(): Promise<number>;
 
+    /**
+     * Reads a signed 16-bit integer with the configured {@link #littleEndian endianness}
+     * and advances the position by 2 bytes.
+     */
     readInt16(): Promise<number>;
 
+    /**
+     * Reads an unsigned 32-bit integer with the configured {@link #littleEndian endianness}
+     * and advances the position by 4 bytes.
+     */
     readUint32(): Promise<number>;
 
+    /**
+     * Reads a signed 32-bit integer with the configured {@link #littleEndian endianness}
+     * and advances the position by 4 bytes.
+     */
     readInt32(): Promise<number>;
 
+    /**
+     * Reads an unsigned 64-bit integer with the configured {@link #littleEndian endianness}
+     * and advances the position by 8 bytes.
+     */
     readUint64(): Promise<bigint>;
 
+    /**
+     * Reads a signed 64-bit integer with the configured {@link #littleEndian endianness}
+     * and advances the position by 8 bytes.
+     */
     readInt64(): Promise<bigint>;
 
+    /**
+     * Reads an 16-bit float with the configured {@link #littleEndian endianness}
+     * and advances the position by 2 bytes.
+     * **Limited browser support.**
+     */
     readFloat16(): Promise<number>;
 
+    /**
+     * Reads an 32-bit float with the configured {@link #littleEndian endianness}
+     * and advances the position by 4 bytes.
+     */
     readFloat32(): Promise<number>;
 
+    /**
+     * Reads an 64-bit float with the configured {@link #littleEndian endianness}
+     * and advances the position by 8 bytes.
+     */
     readFloat64(): Promise<number>;
 
+    /**
+     * Reads a length-encoded UTF-8 string.
+     * This is the length of the encoded bytes as a {@link readUint32 32-bit unsigned integer}
+     * followed by that number of bytes.
+     */
     readString(): Promise<string>;
 
+    /**
+     * Closes the reader, freeing any
+     * resources it controls.
+     */
     close(): Promise<void>;
 
 }

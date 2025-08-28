@@ -1,45 +1,120 @@
 import {DataSource} from "../util/data";
 
+/**
+ * Abstraction for writing sequential binary data,
+ * backed by a stream when possible
+ */
 export interface DataWriter {
 
+    /**
+     * Endianness flag. When true, multibyte values
+     * are written as little-endian. Defaults to false.
+     */
     littleEndian: boolean;
 
+    /**
+     * Writes the given buffer to this writer
+     * @param buf The buffer to write
+     * @param byteOffset The offset into the buffer. Defaults to 0.
+     * @param byteLength The length of the buffer. Defaults to intrinsic length.
+     */
     write(
         buf: DataSource,
         byteOffset?: number,
         byteLength?: number
     ): Promise<void>;
 
+    /**
+     * Writes an unsigned 8-bit integer
+     */
     writeUint8(n: number): Promise<void>;
 
+    /**
+     * Writes a signed 8-bit integer
+     */
     writeInt8(n: number): Promise<void>;
 
+    /**
+     * Writes an unsigned 16-bit integer
+     * with the configured {@link #littleEndian endianness}
+     */
     writeUint16(n: number): Promise<void>;
 
+    /**
+     * Writes a signed 16-bit integer
+     * with the configured {@link #littleEndian endianness}
+     */
     writeInt16(n: number): Promise<void>;
 
+    /**
+     * Writes an unsigned 32-bit integer
+     * with the configured {@link #littleEndian endianness}
+     */
     writeUint32(n: number): Promise<void>;
 
+    /**
+     * Writes a signed 32-bit integer
+     * with the configured {@link #littleEndian endianness}
+     */
     writeInt32(n: number): Promise<void>;
 
+    /**
+     * Writes an unsigned 64-bit integer
+     * with the configured {@link #littleEndian endianness}
+     */
     writeUint64(n: number | bigint): Promise<void>;
 
+    /**
+     * Writes a signed 64-bit integer
+     * with the configured {@link #littleEndian endianness}
+     */
     writeInt64(n: number | bigint): Promise<void>;
 
+    /**
+     * Writes a 16-bit float
+     * with the configured {@link #littleEndian endianness}.
+     * **Limited browser support.**
+     */
     writeFloat16(n: number): Promise<void>;
 
+    /**
+     * Writes a 32-bit float
+     * with the configured {@link #littleEndian endianness}.
+     */
     writeFloat32(n: number): Promise<void>;
 
+    /**
+     * Writes a 64-bit float
+     * with the configured {@link #littleEndian endianness}.
+     */
     writeFloat64(n: number): Promise<void>;
 
+    /**
+     * Writes a UTF-8 encoded string, prefixed with the
+     * length of the string in code units
+     * as a {@link #writeUint32 32-bit unsigned integer}.
+     */
     writeString(s: string): Promise<void>;
 
+    /**
+     * Closes the writer, releasing any resources
+     * it controls.
+     */
     close(): Promise<void>;
 
 }
 
+/**
+ * A DataWriter which writes to an internal buffer,
+ * accessible with the {@link MemoryDataWriter#data data property}.
+ */
 export interface MemoryDataWriter extends DataWriter {
 
+    /**
+     * The buffer being written to.
+     * Writing more data to this writer may cause a value
+     * yielded by this getter to become invalid.
+     */
     readonly data: Uint8Array;
 
 }
