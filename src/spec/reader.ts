@@ -1,5 +1,12 @@
 import {DataTarget} from "../util/data";
 
+type Encoding = [] | ["bytes"] | ["utf8"] | ["base64"];
+type Encoded<E extends Encoding> = E extends { length: 0 } ? Uint8Array :
+    E extends ["bytes"] ? Uint8Array :
+        E extends ["utf8"] ? string :
+            E extends ["base64"] ? string :
+                never;
+
 /**
  * Abstraction for reading sequential binary data,
  * backed by a stream when possible
@@ -37,28 +44,11 @@ export interface DataReader {
     /**
      * Reads from the current position to EOF and stores the result
      * in a newly allocated buffer.
+     * @param encoding Encoding to use. If unset or "bytes", returns a
+     * {@link Uint8Array}. If "base64", returns a base64 encoded string.
+     * If "utf8", returns a UTF-8 string.
      */
-    readAll(): Promise<Uint8Array>;
-
-    /**
-     * Reads from the current position to EOF and stores the result
-     * in a newly allocated buffer.
-     */
-    readAll(encoding: "bytes"): Promise<Uint8Array>;
-
-    /**
-     * Reads from the current position to EOF and stores the result
-     * in a newly allocated buffer, then interprets decodes buffer
-     * as a UTF-8 string.
-     */
-    readAll(encoding: "utf8"): Promise<string>;
-
-    /**
-     * Reads from the current position to EOF and stores the result
-     * in a newly allocated buffer, then encodes the buffer
-     * into a base64 string.
-     */
-    readAll(encoding: "base64"): Promise<string>;
+    readAll<E extends Encoding>(...encoding: E): Promise<Encoded<E>>;
 
     /**
      * Reads an unsigned 8-bit integer
@@ -181,8 +171,7 @@ export abstract class AbstractDataReader implements DataReader {
         return u8;
     }
 
-    // @ts-ignore
-    async readAll(encoding?: string): Promise<string | Uint8Array> {
+    async readAll<E extends Encoding>(...encoding: E): Promise<Encoded<E>> {
         let capacity: number = 4096;
         let length: number = 0;
         let buf = new ArrayBuffer(capacity);
@@ -209,7 +198,7 @@ export abstract class AbstractDataReader implements DataReader {
             }
         }
 
-        switch (encoding) {
+        switch (encoding.length && encoding[0]) {
             case "utf8":
                 // @ts-ignore
                 return (new TextDecoder()).decode(new Uint8Array(buf, 0, length));

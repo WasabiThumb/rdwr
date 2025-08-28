@@ -21,7 +21,6 @@ export type { DataWriter } from "./spec/writer";
  */
 export async function readFromBytes(src: DataSource): Promise<DataReader> {
     const u8 = await DataSource.asBytes(src);
-    // @ts-ignore
     return new ArrayBufferDataReader(u8.buffer, u8.byteOffset, u8.byteLength);
 }
 
@@ -65,7 +64,6 @@ export async function readFromFile(options?: ReadFileOptions): Promise<DataReade
         }
         const handle = result[0];
         const blob = await handle.getFile();
-        // @ts-ignore
         return new BlobDataReader(blob);
     } else {
         // Use classic input method
@@ -88,7 +86,6 @@ export async function readFromFile(options?: ReadFileOptions): Promise<DataReade
                 }
 
                 const file = files[0]!;
-                // @ts-ignore
                 res(new BlobDataReader(file));
             });
         });
